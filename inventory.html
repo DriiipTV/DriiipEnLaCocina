@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+ <title>Inventory</title>
+ <style>
+ body {
+ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+ background: #FAFAFA;
+ color: #1C1C1E;
+ margin: 0;
+ padding: 0;
+ }
+ .container {
+ max-width: 400px;
+ margin: 0 auto;
+ padding: 20px;
+ }
+ .header {
+ font-weight: 600;
+ font-size: 18px;
+ text-align: center;
+ margin-bottom: 20px;
+ }
+ .add-form {
+ display: flex;
+ gap: 8px;
+ margin-bottom: 20px;
+ }
+ .add-form input {
+ flex: 1;
+ padding: 12px;
+ border: 1px solid #E0E0E0;
+ border-radius: 8px;
+ font-size: 15px;
+ }
+ .add-form button {
+ padding: 12px 16px;
+ background: #FF6B35;
+ color: white;
+ border: none;
+ border-radius: 8px;
+ font-size: 15px;
+ }
+ .item {
+ display: flex;
+ justify-content: space-between;
+ padding: 12px;
+ background: white;
+ border-radius: 8px;
+ margin: 8px 0;
+ border: 1px solid #E0E0E0;
+ }
+ .item button {
+ background: #FF6B35;
+ color: white;
+ border: none;
+ padding: 6px 12px;
+ border-radius: 6px;
+ font-size: 14px;
+ }
+ .back {
+ display: block;
+ color: #5A5A5C;
+ font-size: 14px;
+ text-align: center;
+ margin: 20px 0;
+ }
+ .voice-btn {
+ display: block;
+ width: 100%;
+ padding: 12px;
+ background: #1C1C1E;
+ color: white;
+ border: none;
+ border-radius: 8px;
+ font-size: 15px;
+ margin: 20px 0;
+ }
+</style>
+</head>
+<body>
+ <div class="container">
+
+ <a href="index.html" class="back">← Home</a>
+
+ <div class="header">🧺 Your Kitchen</div>
+
+ <div class="add-form">
+ <input type="text" id="newItem" placeholder="Add an item..." />
+ <button onclick="addItem()">Add</button>
+ </div>
+
+ <button class="voice-btn" onclick="startListening()">🎤 Tap to Talk</button>
+
+ <div id="itemList">
+ <!-- Items will be added here by JavaScript -->
+ </div>
+
+ </div>
+
+ <!-- Link to shared JavaScript -->
+ <script src="driiip.js"></script>
+
+ <!-- Page-specific script: Load saved inventory -->
+ <script>
+ // Run on page load
+ window.onload = function () {
+ const saved = loadData("inventoryItems") || [];
+ saved.forEach(item => addItemToList("itemList", item));
+ };
+
+ // Add item manually
+ function addItem() {
+ const input = document.getElementById("newItem");
+ const value = input.value.trim();
+ if (!value) return;
+
+ addItemToList("itemList", value);
+ saveInventory();
+ input.value = "";
+ }
+
+ // Save inventory to storage
+ function saveInventory() {
+ const items = Array.from(document.querySelectorAll("#itemList .item span"))
+ .map(el => el.textContent);
+ saveData("inventoryItems", items);
+ }
+
+ // Add voice item (called from driiip.js)
+ window.addVoiceItem = function (item) {
+ addItemToList("itemList", item);
+ saveInventory();
+ alert(`Got it — added "${item}"!`);
+ }
+</script>
+</body>
+</html>

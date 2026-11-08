@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+ <title>Driiip</title>
+ <style>
+ body {
+ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+ background: #FAFAFA;
+ color: #1C1C1E;
+ margin: 0;
+ padding: 0;
+ text-align: center;
+ }
+ .container {
+ max-width: 400px;
+ margin: 0 auto;
+ padding: 20px;
+ }
+ .logo {
+ font-size: 28px;
+ font-weight: 700;
+ color: #FF6B35;
+ margin: 30px 0 20px;
+ }
+ .nav {
+ display: flex;
+ flex-direction: column;
+ gap: 16px;
+ margin-top: 30px;
+ }
+ .nav a {
+ display: block;
+ padding: 14px;
+ background: white;
+ border-radius: 12px;
+ text-decoration: none;
+ color: #1C1C1E;
+ font-size: 16px;
+ border: 1px solid #E0E0E0;
+ }
+ .nav a:hover {
+ background: #FFE8D6;
+ }
+ .voice-hint {
+ margin-top: 40px;
+ font-size: 14px;
+ color: #5A5A5C;
+ line-height: 1.5;
+ }
+ .highlight {
+ color: #FF6B35;
+ font-weight: 500;
+ }
+ .voice-btn {
+ display: block;
+ width: 100%;
+ padding: 12px;
+ background: #1C1C1E;
+ color: white;
+ border: none;
+ border-radius: 8px;
+ font-size: 15px;
+ margin: 20px 0;
+ }
+</style>
+</head>
+<body>
+ <div class="container">
+ <div class="logo">💧 Driiip</div>
+
+ <div class="nav">
+ <a href="inventory.html">🧺 Inventory</a>
+ <a href="calendar.html">📅 Meal Calendar</a>
+ <a href="duel.html">⚔️ Dish Duel</a>
+ <a href="wallet.html">💰 Chore Wallet</a>
+ <a href="dashboard.html">👨‍👩‍👧‍👦 Parent Dashboard</a>
+ </div>
+
+ <p class="voice-hint">
+ Say <span class="highlight">“Hey Driiip”</span> or <span class="highlight">“Oye Driiip”</span> to jump to your wallet, start a duel, or check chores.
+ </p>
+
+ <button class="voice-btn" onclick="startListening()">🎤 Tap to Talk</button>
+ </div>
+
+ <!-- Link to shared JavaScript -->
+ <script src="driiip.js"></script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+ <title>Driiip Sync Test</title>
+ <style>
+ body {
+ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+ background: #FAFAFA;
+ color: #1C1C1E;
+ margin: 0;
+ padding: 0;
+ }
+ .container {
+ max-width: 400px;
+ margin: 0 auto;
+ padding: 20px;
+ }
+ .header {
+ font-weight: 600;
+ font-size: 18px;
+ text-align: center;
+ margin-bottom: 20px;
+ }
+ .players {
+ display: flex;
+ gap: 10px;
+ margin-bottom: 20px;
+ }
+ .player-btn {
+ flex: 1;
+ padding: 12px;
+ background: #FF6B35;
+ color: white;
+ border: none;
+ border-radius: 8px;
+ font-size: 15px;
+ }
+ .log {
+ margin-top: 20px;
+ }
+ .entry {
+ padding: 10px;
+ background: white;
+ border-radius: 6px;
+ margin: 6px 0;
+ border: 1px solid #E0E0E0;
+ font-size: 14px;
+ }
+ .back {
+ display: block;
+ color: #5A5A5C;
+ font-size: 14px;
+ text-align: center;
+ margin: 20px 0;
+ }
+ .voice-btn {
+ display: block;
+ width: 100%;
+ padding: 12px;
+ background: #1C1C1E;
+ color: white;
+ border: none;
+ border-radius: 8px;
+ font-size: 15px;
+ margin: 20px 0;
+ }
+</style>
+</head>
+<body>
+ <div class="container">
+
+ <a href="index.html" class="back">← Home</a>
+
+ <div class="header">💧 Driiip Sync Test</div>
+ <p style="text-align: center; font-size: 14px; color: #5A5A5C;">
+ Tap a button to “drip in” — your name and time will be saved.
+ </p>
+
+ <div class="players">
+ <button class="player-btn" onclick="dripIn('You')">You</button>
+ <button class="player-btn" onclick="dripIn('Roommate')">Roommate</button>
+ </div>
+
+ <button class="voice-btn" onclick="startListening()">🎤 Tap to Talk</button>
+
+ <div class="log" id="log">
+ <!-- Check-ins will appear here -->
+ </div>
+
+ </div>
+
+ <!-- Link to shared JavaScript -->
+ <script src="driiip.js"></script>
+
+ <!-- Page-specific script -->
+ <script>
+ // Load saved check-ins
+ const log = document.getElementById("log");
+ const history = loadData("dripSyncLog") || [];
+
+ // Display past check-ins
+ history.forEach(entry => {
+ const el = document.createElement("div");
+ el.className = "entry";
+ el.textContent = `${entry.name} • ${entry.time}`;
+ log.appendChild(el);
+ });
+
+ // Record new check-in
+ function dripIn(name) {
+ const now = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+ const entry = { name, time: now };
+
+ // Add to log
+ const el = document.createElement("div");
+ el.className = "entry";
+ el.textContent = `${name} • ${now}`;
+ log.insertBefore(el, log.firstChild);
+
+ // Save to history
+ history.unshift(entry);
+ saveData("dripSyncLog", history);
+
+ // Optional voice feedback
+ alert(`Got it — ${name} dripped in at ${now}!`);
+ }
+
+ // Voice support
+ window.addVoiceItem = function (command) {
+ if (command.includes("drip in")) {
+ const name = command.includes("roommate") ? "Roommate" : "You";
+ dripIn(name);
+ }
+ }
+</script>
+</body>
+</html>

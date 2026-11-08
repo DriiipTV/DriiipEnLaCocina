@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+ <title>Dish Duel</title>
+ <style>
+ body {
+ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+ background: #FAFAFA;
+ color: #1C1C1E;
+ margin: 0;
+ padding: 0;
+ text-align: center;
+ }
+ .container {
+ max-width: 400px;
+ margin: 0 auto;
+ padding: 20px;
+ }
+ .header {
+ font-weight: 600;
+ font-size: 18px;
+ margin-bottom: 20px;
+ }
+ .subhead {
+ font-size: 15px;
+ color: #5A5A5C;
+ margin-bottom: 30px;
+ }
+ .players {
+ font-size: 14px;
+ margin-bottom: 20px;
+ }
+ .choices {
+ display: flex;
+ justify-content: center;
+ gap: 15px;
+ margin: 30px 0;
+ }
+ .btn {
+ width: 60px;
+ height: 60px;
+ background: white;
+ border: 2px solid #FF6B35;
+ border-radius: 12px;
+ font-size: 24px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ cursor: pointer;
+ }
+ .btn:active { background: #FFE8D6; }
+ .btn.selected { background: #FF6B35; color: white; }
+ .action-btn {
+ background: #FF6B35;
+ color: white;
+ border: none;
+ padding: 14px;
+ font-size: 16px;
+ border-radius: 8px;
+ margin-top: 20px;
+ display: block;
+ }
+ .result {
+ font-size: 16px;
+ font-weight: 500;
+ color: #1C1C1E;
+ margin-top: 20px;
+ padding: 12px;
+ background: #FFE8D6;
+ border-radius: 8px;
+ display: none;
+ }
+ .back {
+ color: #5A5A5C;
+ font-size: 14px;
+ margin-top: 20px;
+ }
+</style>
+</head>
+<body>
+ <div class="container">
+
+ <a href="index.html" class="back">← Home</a>
+
+ <div class="header">⚔️ Dish Duel</div>
+ <div class="subhead">Who’s cleaning up?</div>
+
+ <div class="players">
+ <div>✅ You</div>
+ <div>✅ Jamie</div>
+ <div>❌ Alex (not home)</div>
+ </div>
+
+ <div class="choices">
+ <button class="btn" data-choice="rock">🪨</button>
+ <button class="btn" data-choice="paper">📄</button>
+ <button class="btn" data-choice="scissors">✂️</button>
+ </div>
+
+ <button class="action-btn" id="playBtn">Pick Now (10 sec)</button>
+
+ <div class="result" id="result"></div>
+
+ </div>
+
+ <script>
+ const choices = ["rock", "paper", "scissors"];
+ const btns = document.querySelectorAll(".btn");
+ let userChoice = null;
+
+ // Highlight selected choice
+ btns.forEach(btn => {
+ btn.addEventListener("click", () => {
+ btns.forEach(b => b.classList.remove("selected"));
+ btn.classList.add("selected");
+ userChoice = btn.dataset.choice;
+ });
+ });
+
+ // Play the game
+ document.getElementById("playBtn").addEventListener("click", () => {
+ if (!userChoice) {
+ alert("Pick rock, paper, or scissors!");
+ return;
+ }
+
+ // Simulate others' choices
+ const jamieChoice = choices[Math.floor(Math.random() * 3)];
+
+ // Determine winner
+ let resultText = "";
+ if (
+ (userChoice === "rock" && jamieChoice === "scissors") ||
+ (userChoice === "paper" && jamieChoice === "rock") ||
+ (userChoice === "scissors" && jamieChoice === "paper")
+ ) {
+ resultText = "You won! Jamie cleans up.";
+ } else if (userChoice === jamieChoice) {
+ resultText = "Tie! You both clean up.";
+ } else {
+ resultText = "Jamie won! You’re on cleanup.";
+ }
+
+ // Show result
+ document.getElementById("result").style.display = "block";
+ document.getElementById("result").textContent = resultText;
+
+ // Disable button
+ document.getElementById("playBtn").disabled = true;
+ document.getElementById("playBtn").style.opacity = 0.5;
+ });
+ </script>
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+ <title>Parent Dashboard</title>
+ <style>
+ body {
+ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+ background: #FAFAFA;
+ color: #1C1C1E;
+ margin: 0;
+ padding: 0;
+ }
+ .container {
+ max-width: 400px;
+ margin: 0 auto;
+ padding: 20px;
+ }
+ .header {
+ font-weight: 600;
+ font-size: 18px;
+ text-align: center;
+ margin-bottom: 20px;
+ }
+ .summary {
+ background: white;
+ padding: 16px;
+ border-radius: 12px;
+ box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+ margin-bottom: 16px;
+ }
+ .summary-item {
+ display: flex;
+ justify-content: space-between;
+ padding: 8px 0;
+ font-size: 15px;
+ }
+ .label {
+ color: #5A5A5C;
+ }
+ .value {
+ font-weight: 500;
+ }
+ .approve-btn {
+ display: block;
+ width: 100%;
+ padding: 12px;
+ background: #FF6B35;
+ color: white;
+ text-align: center;
+ border: none;
+ border-radius: 8px;
+ font-size: 15px;
+ margin: 10px 0;
+ transition: 0.3s;
+ }
+ .approve-btn.approved {
+ background: #4CAF50;
+ }
+ .approved-text {
+ color: #4CAF50;
+ font-weight: 500;
+ }
+ .fairness {
+ font-size: 14px;
+ color: #1C1C1E;
+ margin-top: 20px;
+ }
+ .back {
+ display: block;
+ color: #5A5A5C;
+ font-size: 14px;
+ text-align: center;
+ margin-bottom: 10px;
+ }
+</style>
+</head>
+<body>
+ <div class="container">
+
+ <a href="index.html" class="back">← Home</a>
+
+ <div class="header">👨‍👩‍👧‍👦 Parent Dashboard</div>
+
+ <div class="summary">
+ <div class="summary-item">
+ <div class="label">Meals This Week</div>
+ <div class="value">5 / 7</div>
+ </div>
+ <div class="summary-item">
+ <div class="label">Chores Done</div>
+ <div class="value">8 / 10</div>
+ </div>
+ <div class="summary-item">
+ <div class="label">Total Earned</div>
+ <div class="value">$14.50</div>
+ </div>
+ </div>
+
+ <div class="summary" id="pendingChores">
+ <div class="summary-item" id="laundryItem">
+ <div class="label">Laundry – Jamie</div>
+ <button class="approve-btn" onclick="approveChore('laundryItem')">Approve $3.00</button>
+ </div>
+ <div class="summary-item" id="dishesItem">
+ <div class="label">Dishes – Trex</div>
+ <button class="approve-btn" onclick="approveChore('dishesItem')">Approve $2.00</button>
+ </div>
+ </div>
+
+ <div class="fairness">
+ 🔍 Fairness Check: Trex has skipped 3 times → auto-added to next Dish Duel.
+ </div>
+
+ </div>
+
+ <script>
+ function approveChore(itemId) {
+ const item = document.getElementById(itemId);
+ const button = item.querySelector('.approve-btn');
+ 
+ button.textContent = "Approved!";
+ button.classList.add("approved");
+ 
+ // Remove from list after 1 second
+ setTimeout(() => {
+ item.style.opacity = "0.5";
+ item.style.textDecoration = "line-through";
+ }, 500);
+ }
+ </script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-sca
+ <style>
+ body {
+ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+ background: #FAFAFA;
+ color: #1C1C1E;
+ margin: 0;
+ padding: 0;
+ }
+ .container {
+ max-width: 400px;
+ margin: 0 auto;
+ padding: 20px;
+ }
+ .header {
+ font-weight: 600;
+ font-size: 18px;
+ text-align: center;
+ margin-bottom: 20px;
+ }
+ .card {
+ background: white;
+ border-radius: 8px;
+ padding: 16px;
+ margin: 12px 0;
+ border: 1px solid #E0E0E0;
+ }
+ .card h3 {
+ margin: 0 0 12px;
+ font-size: 16px;
+ color: #1C1C1E;
+ }
+ .stat {
+ display: flex;
+ justify-content: space-between;
+ padding: 8px 0;
+ font-size: 14px;
+ color: #5A5A5C;
+ border-bottom: 1px solid #E0E0E0;
+ }
+ .stat:last-child {
+ border-bottom: none;
+ }
+ .voice-btn {
+ display: block;
+ width: 100%;
+ padding: 12px;
+ background: #1C1C1E;
+ color: white;
+ border: none;
+ border-radius: 8px;
+ font-size: 15px;
+ margin: 20px 0;
+ text-align: center;
+ }
+ .back {
+ display: block;
+ color: #5A5A5C;
+ font-size: 14px;
+ text-align: center;
+ margin: 20px 0;
+ }
+</style>
+</head>
+<body>
+ <div class="container">
+
+ <a href="index.html" class="back">← Home</a>
+
+ <div class="header">👨‍👩‍👧‍👦 Parent Dashboard</div>
+
+ <div class="card">
+ <h3>📊 Chore Points</h3>
+ <div class="stat">
+ <span>You</span>
+ <span id="yourPoints">0</span>
+ </div>
+ <div class="stat">
+ <span>Roommate</span>
+ <span id="roommatePoints">0</span>
+ </div>
+ </div>
+
+ <div class="card">
+ <h3>📅 Meal Plan</h3>
+ <div class="stat">
+ <span>Today</span>
+ <span id="todayMeal">Not set</span>
+ </div>
+ <div class="stat">
+ <span>Tomorrow</span>
+ <span id="tomorrowMeal">Not set</span>
+ </div>
+ </div>
+
+ <div class="card">
+ <h3>💧 Drip Sync</h3>
+ <div class="stat">
+ <span>Last Check-in</span>
+ <span id="lastCheckin">—</span>
+ </div>
+ </div>
+
+ <button class="voice-btn" onclick="startListening()">🎤 Tap to Talk</button>
+
+ </div>
+
+ <!-- Link to shared JavaScript -->
+ <script src="driiip.js"></script>
+
+ <!-- Page-specific script -->
+ <script>
+ // Load chore points
+ document.getElementById("yourPoints").textContent = loadData("chorePoints") || 0;
+ document.getElementById("roommatePoints").textContent = loadData("roommateChorePoints") || 0;
+
+ // Load meal plan
+ const meals = loadData("weeklyMeals") || {};
+ const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+ const tomorrow = new Date();
+ tomorrow.setDate(tomorrow.getDate() + 1);
+ const tomorrowDay = tomorrow.toLocaleDateString('en-US', { weekday: 'long' });
+
+ document.getElementById("todayMeal").textContent = meals[today] || "Not set";
+ document.getElementById("tomorrowMeal").textContent = meals[tomorrowDay] || "Not set";
+
+ // Load last Drip Sync check-in
+ const syncLog = loadData("dripSyncLog") || [];
+ if (syncLog.length > 0) {
+ const last = syncLog[0];
+ document.getElementById("lastCheckin").textContent = `${last.name} • ${last.time}`;
+ }
+
+ // Voice support
+ window.addVoiceItem = function (command) {
+ if (command.includes("remind") && command.includes("dinner")) {
+ alert("Reminder sent: 'Time to start dinner!' 🍲");
+ } else if (command.includes("check points")) {
+ alert(`You have ${loadData("chorePoints") || 0} points. Keep going!`);
+ } else {
+ alert("Try saying 'remind them to start dinner' or 'check points'.");
+ }
+ }
+</script>
+</body>
+</html>

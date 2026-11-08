@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+ <title>Chore Wallet</title>
+ <style>
+ body {
+ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+ background: #FAFAFA;
+ color: #1C1C1E;
+ margin: 0;
+ padding: 0;
+ }
+ .container {
+ max-width: 400px;
+ margin: 0 auto;
+ padding: 20px;
+ }
+ .header {
+ font-weight: 600;
+ font-size: 18px;
+ text-align: center;
+ margin-bottom: 20px;
+ }
+ .balance {
+ text-align: center;
+ font-size: 24px;
+ font-weight: 700;
+ color: #FF6B35;
+ margin: 20px 0;
+ }
+ .chore-btn {
+ display: block;
+ width: 100%;
+ padding: 14px;
+ background: white;
+ border: 1px solid #E0E0E0;
+ border-radius: 8px;
+ margin: 8px 0;
+ font-size: 16px;
+ color: #1C1C1E;
+ text-align: left;
+ }
+ .chore-btn:hover {
+ background: #FFE8D6;
+ }
+ .log {
+ margin-top: 20px;
+ }
+ .entry {
+ padding: 10px;
+ background: white;
+ border-radius: 6px;
+ margin: 6px 0;
+ border: 1px solid #E0E0E0;
+ font-size: 14px;
+ color: #5A5A5C;
+ }
+ .back {
+ display: block;
+ color: #5A5A5C;
+ font-size: 14px;
+ text-align: center;
+ margin: 20px 0;
+ }
+ .voice-btn {
+ display: block;
+ width: 100%;
+ padding: 12px;
+ background: #1C1C1E;
+ color: white;
+ border: none;
+ border-radius: 8px;
+ font-size: 15px;
+ margin: 20px 0;
+ }
+</style>
+</head>
+<body>
+ <div class="container">
+
+ <a href="index.html" class="back">← Home</a>
+
+ <div class="header">💰 Chore Wallet</div>
+ <div class="balance" id="points">0</div>
+
+ <button class="chore-btn" onclick="addPoints(10, 'Took out the trash')">🗑️ Took out the trash</button>
+ <button class="chore-btn" onclick="addPoints(15, 'Did the dishes')">🍽️ Did the dishes</button>
+ <button class="chore-btn" onclick="addPoints(10, 'Folded laundry')">👕 Folded laundry</button>
+ <button class="chore-btn" onclick="addPoints(5, 'Made the bed')">🛏️ Made the bed</button>
+
+ <button class="voice-btn" onclick="startListening()">🎤 Tap to Talk</button>
+
+ <div class="log" id="log">
+ <!-- Entries will appear here -->
+ </div>
+
+ </div>
+
+ <!-- Link to shared JavaScript -->
+ <script src="driiip.js"></script>
+
+ <!-- Page-specific script -->
+ <script>
+ // Load saved points and history
+ const pointsEl = document.getElementById("points");
+ const logEl = document.getElementById("log");
+ const savedPoints = loadData("chorePoints") || 0;
+ const history = loadData("choreHistory") || [];
+
+ // Update display
+ pointsEl.textContent = savedPoints;
+
+ // Show past chores
+ history.forEach(entry => {
+ const el = document.createElement("div");
+ el.className = "entry";
+ el.textContent = `${entry.action} • ${entry.points} pts • ${entry.time}`;
+ logEl.appendChild(el);
+ });
+
+ // Add points and log chore
+ function addPoints(amount, action) {
+ const newTotal = savedPoints + amount;
+ saveData("chorePoints", newTotal);
+ pointsEl.textContent = newTotal;
+
+ const now = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+ const entry = { action, points: amount, time: now };
+ history.unshift(entry);
+ saveData("choreHistory", history);
+
+ // Add to log
+ const el = document.createElement("div");
+ el.className = "entry";
+ el.textContent = `${action} • ${amount} pts • ${now}`;
+ logEl.insertBefore(el, logEl.firstChild);
+
+ alert(`+${amount} points! Great job.`);
+ }
+
+ // Voice support
+ window.addVoiceItem = function (command) {
+ if (command.includes("dishes")) {
+ addPoints(15, "Did the dishes");
+ } else if (command.includes("trash")) {
+ addPoints(10, "Took out the trash");
+ } else if (command.includes("laundry")) {
+ addPoints(10, "Folded laundry");
+ } else if (command.includes("bed")) {
+ addPoints(5, "Made the bed");
+ } else {
+ alert("Say a chore like 'I did the dishes' to earn points.");
+ }
+ }
+</script>
+</body>
+</html>
